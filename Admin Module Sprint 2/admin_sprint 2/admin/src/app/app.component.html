@@ -1,0 +1,196 @@
+<div class="container mt-5">
+
+  <div class="row">
+    <!-- Admin Database Form -->
+    <div class="col-md-6 mx-auto">
+      <div class="shadow p-5 rounded">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+          <h4 class="display-6 text-center py-2">Admin Database</h4>
+
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input 
+              id="name"
+              required
+              #name="ngModel"
+              ngModel
+              name="name"
+              type="text"
+              class="form-control"
+              placeholder="Enter the name"
+              pattern="^[A-Za-z ]+$">
+              
+            <div *ngIf="name.invalid && name.touched">
+              <small class="text-danger" *ngIf="name.errors?.['required']">
+                Name is required
+              </small>
+              <small class="text-danger" *ngIf="name.errors?.['pattern']">
+                Enter a valid name (letters only)
+              </small>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              id="email"
+              required
+              #email="ngModel"
+              ngModel
+              name="email"
+              type="email"
+              class="form-control"
+              placeholder="Enter email"
+            />
+            <div *ngIf="email.invalid && email.touched">
+              <small class="text-danger" *ngIf="email.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input
+              id="phoneNumber"
+              required
+              #phoneNumber="ngModel"
+              ngModel
+              name="phoneNumber"
+              type="tel"
+              class="form-control"
+              placeholder="Enter phone number"
+            />
+            <div *ngIf="phoneNumber.invalid && phoneNumber.touched">
+              <small class="text-danger" *ngIf="phoneNumber.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-group text-center">
+            <input class="btn btn-primary" type="submit" value="Submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="row mt-5">
+    <div class="col">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of adminDetails">
+            <td>{{ admin.id }}</td>
+            <td>{{ admin.name }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.phoneNumber }}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                (click)="edit(admin)"
+              >
+                Edit
+              </button>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="deleteAdmin(admin)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal for Editing Admin -->
+  <div
+    class="modal"
+    id="editModal"
+    tabindex="-1"
+    aria-labelledby="editModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Admin</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <form (ngSubmit)="updateAdmin()">
+
+            <div class="mb-3">
+              <label for="editName" class="form-label">Name</label>
+              <input
+                id="editName"
+                [(ngModel)]="adminToUpdate.name"
+                name="name"
+                type="text"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="editEmail" class="form-label">Email</label>
+              <input
+                id="editEmail"
+                [(ngModel)]="adminToUpdate.email"
+                name="email"
+                type="email"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="editPhone" class="form-label">Phone Number</label>
+              <input
+                id="editPhone"
+                [(ngModel)]="adminToUpdate.phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
